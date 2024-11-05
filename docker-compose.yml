@@ -5,8 +5,6 @@ services:
     build:
       context: .
       dockerfile: db.Dockerfile
-    ports:
-      - "${MONGO_DB_PORT}:27017"
     volumes:
       - ./db:/data/db
     environment:
@@ -43,6 +41,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "${CLIENT_PORT}:4173"
+    volumes:
+      - ./static:/app/dist
     environment:
       - API_HOST=localhost
       - API_PORT=${SERVER_PORT}
