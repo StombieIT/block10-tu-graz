@@ -46,8 +46,6 @@ services:
     environment:
       - API_HOST=localhost
       - API_PORT=${SERVER_PORT}
-    networks:
-      - app-network
 
 networks:
   app-network:
