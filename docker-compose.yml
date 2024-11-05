@@ -1,7 +1,7 @@
 services:
-  block09-db:
-    image: block09-db
-    container_name: block09-db
+  block10-db:
+    image: block10-db
+    container_name: block10-db
     build:
       context: .
       dockerfile: db.Dockerfile
@@ -14,21 +14,38 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_DB_PASSWORD}
     networks:
       - app-network
-  block09-app:
+  block10-server:
     depends_on:
-      - block09-db
-    image: block09-app
-    container_name: block09-app
+      - block10-db
+    image: block10-server
+    container_name: block10-server
     ports:
-      - "${PORT}:3000"
+      - "${SERVER_PORT}:3000"
     build:
-      context: .
+      context: ./server
       dockerfile: Dockerfile
     environment:
       - MONGO_DB_USERNAME=${MONGO_DB_USERNAME}
       - MONGO_DB_PASSWORD=${MONGO_DB_PASSWORD}
       - MONGO_DB_PORT=${MONGO_DB_PORT}
-      - MONGO_DB_HOST=block09-db
+      - MONGO_DB_HOST=block10-db
+      - CLIENT_HOST=localhost
+      - CLIENT_PORT=${CLIENT_PORT}
+    networks:
+      - app-network
+  block10-client:
+    depends_on:
+      - block10-server
+    image: block10-client
+    container_name: block10-client
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "${CLIENT_PORT}:4173"
+    environment:
+      - API_HOST=localhost
+      - API_PORT=${SERVER_PORT}
     networks:
       - app-network
 
