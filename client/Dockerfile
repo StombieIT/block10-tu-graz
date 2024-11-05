@@ -6,6 +6,8 @@ COPY . .
 
 RUN yarn install
 
-EXPOSE 4173
+ENV APP_PORT=4173
+
+EXPOSE $APP_PORT
 
 CMD ["sh", "-c", "yarn build && yarn preview"]
