@@ -40,7 +40,7 @@ services:
       context: ./client
       dockerfile: Dockerfile
     ports:
-      - "${CLIENT_PORT}:4173"
+      - "${CLIENT_PORT}:${CLIENT_PORT}"
     volumes:
       - ./static:/app/dist
     environment:
